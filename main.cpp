@@ -28,6 +28,7 @@ void lireFichierPopulation(string _nomFichier);
 void enregistreFichierPopulation(string _nomFichier);
 void populerColorCell(string line);
 void ajouterColorCell(string);
+void comparerAncetre(string);
 
 int main() {
 
@@ -140,7 +141,7 @@ void gereChoix(string s)
 		centreCourant->SupprimerCell(stoi(s));
 		break;
 	case '?'://Trouve un ancêtre commun entre deux individus et l’affiche. Indique également le	nombre de génération qui sépare les deux individus
-		cout << "Trouve ancetre commun" << endl;
+		comparerAncetre(s);
 		break;
 	case '$'://Afficher l’arbre génétique complet de l’individu « X », incluant ses caractéristiques.
 		centreCourant->FindCellByID(stoi(s))->AfficherArbo(0);
@@ -321,4 +322,37 @@ void viderFichier(string nomFichier) {
 	std::ofstream ofs;
 	ofs.open("nomFichier", std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
+}
+
+void comparerAncetre(string line) {
+	size_t pos = 0;
+	string token;
+	int id1, id2;
+
+	for (size_t i = 0; i < 2; i++)
+	{
+		pos = line.find(" ");
+		token = line.substr(0, pos);
+
+		switch (i)
+		{
+		case 0:
+			id1 = stoi(token);
+			break;
+		case 1:
+			id2 = stoi(token);
+			break;
+		default:
+			break;
+		}
+		line.erase(0, pos + 1);
+	}
+
+	int index1 = centreCourant->FindIndexCellByID(id1);
+	int index2 = centreCourant->FindIndexCellByID(id2);
+
+	if (centreCourant->listType[index1] != nullptr && centreCourant->listType[index2] != nullptr) {
+		centreCourant->listType[index1]->CompareAncetre(0, centreCourant->listType[index2]);
+	}
+	
 }

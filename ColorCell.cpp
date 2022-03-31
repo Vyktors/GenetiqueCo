@@ -35,9 +35,15 @@ ColorCell& ColorCell::operator=(const ColorCell& copied)
 	return *this;
 }
 
+bool ColorCell::operator==(const ColorCell& compared) const
+{
+	
+	return id == compared.id;
+}
+
 int ColorCell::getId()
 {
-	return id;
+ 	return id;
 }
 
 int * ColorCell::getRGB()

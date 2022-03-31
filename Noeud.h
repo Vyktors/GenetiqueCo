@@ -15,7 +15,9 @@ public:
 	Noeud(const Noeud<TType>&);
 	~Noeud();
 
+	//Surcharge
 	Noeud<TType>& operator=(const Noeud<TType>& copied);
+	bool operator==(const Noeud<TType>&) const;
 
 	//Fonctions
 	void AjouterEnfants( Noeud* _enfant1, Noeud* _enfant2);
@@ -25,6 +27,8 @@ public:
 	bool estFeuille();
 	bool EnfantGaucheNull();
 	bool EnfantDroiteNull();
+	void CompareAncetre(int niveau, Noeud<TType>*);
+	int CheckAncetre(int niveau, int niveauFound ,int _id);
 
 	//Accesseurs
 	Noeud<TType>& getEnfantGauche();
@@ -77,6 +81,13 @@ inline Noeud<TType>& Noeud<TType>::operator=(const Noeud<TType>& copied)
 	this->enfantGauche = copied.enfantGauche;
 	this->info = copied.info;
 	return *this;
+}
+
+template<typename TType>
+inline bool Noeud<TType>::operator==(const Noeud<TType>& compared) const
+{
+	return (getInfo() == compared.getInfo());
+	
 }
 
 template<typename TType>
@@ -142,8 +153,6 @@ inline bool Noeud<TType>::EnfantDroiteNull()
 	return (enfantDroite == nullptr);
 }
 
-
-
 template<typename TType>
  Noeud<TType>& Noeud<TType>::getEnfantGauche()
 {
@@ -160,6 +169,66 @@ template<typename TType>
  TType& Noeud<TType>::getInfo()
 {
 	return this->info;
+}
+
+template<typename TType>
+void Noeud<TType>::CompareAncetre(int niveau, Noeud<TType>* compared)
+{
+	if (niveau > 0) {
+		TType t = getInfo();
+
+		int comparedNiveau = compared->CheckAncetre(0, 0, t.getId());
+
+		if (comparedNiveau != 0) {
+			double diff = abs(comparedNiveau - niveau);
+			cout << "Ancêtre commun : ";
+
+			cout << "[" << t << "] à " << diff << " génération de différence " << endl;
+		}
+	}
+
+	if (!estFeuille()) {
+
+		if (!EnfantGaucheNull()) {
+			Noeud<TType> enfant1 = getEnfantGauche();
+			enfant1.CompareAncetre(niveau + 1, compared);
+		}
+
+		if (!EnfantDroiteNull()) {
+			Noeud<TType> enfant2 = getEnfantDroite();
+			enfant2.CompareAncetre(niveau + 1, compared);
+		}
+	}
+	else {
+	}
+}
+
+
+template<typename TType>
+int Noeud<TType>::CheckAncetre(int niveau, int niveauFound, int _id )
+{
+	TType t = getInfo();
+
+	if (t == _id) {
+		niveauFound = niveau;
+	}
+
+	if (!estFeuille()) {
+
+		if (!EnfantGaucheNull()) {
+			Noeud<TType> enfant1 = getEnfantGauche();
+			niveauFound = enfant1.CheckAncetre(niveau + 1, niveauFound, _id );
+		}
+
+		if (!EnfantDroiteNull()) {
+			Noeud<TType> enfant2 = getEnfantDroite();
+			niveauFound = enfant2.CheckAncetre(niveau + 1, niveauFound, _id);
+		}
+	}
+	else {
+	}
+
+	return niveauFound;
 }
 
 

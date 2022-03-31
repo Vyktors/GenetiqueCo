@@ -10,7 +10,9 @@ public:
 	ColorCell(int _id, int _r, int _g, int _b);
 	ColorCell(const ColorCell&);
 	~ColorCell() {};
+
 	friend ostream& operator<<(ostream& flux, ColorCell& individu);
+	bool operator==(const ColorCell&) const;
 
 	int Moyenne(int n1, int n2) { return ((n1 + n2) / 2); };
 	int getId();
