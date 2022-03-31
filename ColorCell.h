@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "Arbre.h"
+#include "Noeud.h"
 
 class ColorCell
 {

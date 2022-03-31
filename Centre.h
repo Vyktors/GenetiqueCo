@@ -3,7 +3,6 @@
 #include <random>
 #include "ColorCell.h"
 #include "Interface.h"
-#include "Ancetre.h"
 
 using namespace std;
 
