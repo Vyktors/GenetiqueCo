@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Interface.h"
 
+
 using namespace std;
 
 template<typename TType>
@@ -11,28 +12,30 @@ public:
 	//Constructeurs
 	Noeud();
 	Noeud(const TType& _info);
+	Noeud(const Noeud<TType>&);
 	~Noeud();
 
 	Noeud<TType>& operator=(const Noeud<TType>& copied);
 
 	//Fonctions
-	void AjouterEnfants(Noeud& _enfant1, Noeud& _enfant2);
-	void AjouterEnfantGauche( Noeud& _enfant);
-	void AjouterEnfantDroite( Noeud& _enfant);
+	void AjouterEnfants( Noeud* _enfant1, Noeud* _enfant2);
+	void AjouterEnfantGauche( Noeud* _enfant);
+	void AjouterEnfantDroite( Noeud* _enfant);
 	void AfficherArbo(int);
 	bool estFeuille();
+	bool EnfantGaucheNull();
+	bool EnfantDroiteNull();
 
 	//Accesseurs
-	Noeud<TType> getEnfantGauche();
-	Noeud<TType> getEnfantDroite();
-	TType getInfo();
+	Noeud<TType>& getEnfantGauche();
+	Noeud<TType>& getEnfantDroite();
+	TType& getInfo();
 
 
 private:
 	TType info;
 	Noeud<TType>* enfantGauche;
 	Noeud<TType>* enfantDroite;
-	Noeud<TType>* parent;
 };
 
 template<typename TType>
@@ -45,70 +48,81 @@ inline ostream& operator<<(ostream& flux, Noeud<TType>& element)
 
 template<typename TType> inline
 Noeud<TType>::Noeud() {
-	enfantDroite = enfantGauche = parent = nullptr;
+	enfantDroite = enfantGauche = nullptr;
 }
 
 template<typename TType> inline
 Noeud<TType>::Noeud(const TType& _info) {
-	enfantDroite = enfantGauche = parent = nullptr;
+	enfantDroite = enfantGauche = nullptr;
 	info = _info;
+}
+
+template<typename TType>
+inline Noeud<TType>::Noeud(const Noeud<TType>& copied)
+{
+	this->enfantDroite = copied.enfantDroite;
+	this->enfantGauche = copied.enfantGauche;
+	this->info = copied.info;
 }
 
 template<typename TType> inline
 Noeud<TType>::~Noeud() {
-
+	//TODO
 }
 
 template<typename TType>
 inline Noeud<TType>& Noeud<TType>::operator=(const Noeud<TType>& copied)
 {
-	enfantDroite = copied.enfantDroite;
-	enfantGauche = copied.enfantGauche;
-	parent = copied.parent;
-	info = copied.info;
+	this->enfantDroite = copied.enfantDroite;
+	this->enfantGauche = copied.enfantGauche;
+	this->info = copied.info;
+	return *this;
 }
 
 template<typename TType>
-inline void Noeud<TType>::AjouterEnfants(Noeud& _enfant1, Noeud& _enfant2)
+inline void Noeud<TType>::AjouterEnfants( Noeud* _enfant1,  Noeud* _enfant2)
 {
 	AjouterEnfantGauche(_enfant1);
 	AjouterEnfantDroite(_enfant2);
 }
 
 template<typename TType>
-inline void Noeud<TType>::AjouterEnfantGauche(Noeud& _enfant)
+inline void Noeud<TType>::AjouterEnfantGauche( Noeud* _enfant)
 {
-	this->enfantGauche = &_enfant;
+	this->enfantGauche = _enfant;
 }
 
 template<typename TType>
-inline void Noeud<TType>::AjouterEnfantDroite(Noeud& _enfant)
+inline void Noeud<TType>::AjouterEnfantDroite( Noeud* _enfant)
 {
-	this->enfantDroite = &_enfant;
+	this->enfantDroite = _enfant;
 }
 
 template<typename TType>
 inline void Noeud<TType>::AfficherArbo(int index)
 {
 	Interface::spacing(index);
-	cout << getInfo() << endl;
+	TType t = getInfo();
+	cout << t << endl;
 
 	if (!estFeuille()) {
-		Noeud<TType> nGauche = getEnfantGauche();
-		Noeud<TType> nDroite = getEnfantDroite();
-
-		Interface::spacing(index);
-		nGauche.AfficherArbo(index + 1);
-
-		Interface::spacing(index);
-		nDroite.AfficherArbo(index + 1);
+		
+		if (!EnfantGaucheNull()) {
+			Noeud<TType> enfant1 = getEnfantGauche();
+			Interface::spacing(index + 1);
+			enfant1.AfficherArbo(index + 1);
+		}
+		
+		if (!EnfantDroiteNull()) {
+			Noeud<TType> enfant2 = getEnfantDroite();
+			Interface::spacing(index + 1);
+			enfant2.AfficherArbo(index + 1);
+		}
 	}
 	else {
 	}
 
 }
-
-
 
 template<typename TType>
 inline bool Noeud<TType>::estFeuille()
@@ -117,20 +131,35 @@ inline bool Noeud<TType>::estFeuille()
 }
 
 template<typename TType>
-inline Noeud<TType> Noeud<TType>::getEnfantGauche()
+inline bool Noeud<TType>::EnfantGaucheNull()
 {
-	return *(this->enfantGauche);
+	return (enfantGauche == nullptr);
 }
 
 template<typename TType>
-inline Noeud<TType> Noeud<TType>::getEnfantDroite()
+inline bool Noeud<TType>::EnfantDroiteNull()
+{
+	return (enfantDroite == nullptr);
+}
+
+
+
+template<typename TType>
+ Noeud<TType>& Noeud<TType>::getEnfantGauche()
+{
+	return *(this->enfantGauche);	
+}
+
+template<typename TType>
+ Noeud<TType>& Noeud<TType>::getEnfantDroite()
 {
 	return *(this->enfantDroite);
 }
 
 template<typename TType>
-inline TType Noeud<TType>::getInfo()
+ TType& Noeud<TType>::getInfo()
 {
 	return this->info;
 }
+
 

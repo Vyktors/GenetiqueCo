@@ -139,15 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Ancetre.h" />
     <ClInclude Include="Arbre.h" />
     <ClInclude Include="Centre.h" />
-    <ClInclude Include="IndividuColor.h" />
+    <ClInclude Include="ColorCell.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Noeud.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Centre.cpp" />
-    <ClCompile Include="IndividuColor.cpp" />
+    <ClCompile Include="Ancetre.cpp" />
+    <ClCompile Include="ColorCell.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
