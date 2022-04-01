@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 #include "Noeud.h"
 
 class ColorCell
@@ -43,6 +44,6 @@ inline ColorCell operator+(const ColorCell& c1, const ColorCell& c2)
 inline ostream& operator<<(ostream& flux, ColorCell& individu)
 {
 
-	flux << individu.getId() << " : [" << individu.getRGB(0) << "," << individu.getRGB(1) << "," << individu.getRGB(2) << "]";
+	flux << individu.getId() << " : [" << setfill('0') << setw(3) << individu.getRGB(0) << "," << setw(3) << individu.getRGB(1) << "," << setw(3) << individu.getRGB(2) << "]";
 	return flux;
 }

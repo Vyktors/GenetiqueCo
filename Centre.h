@@ -92,6 +92,7 @@ void Centre<TType>::GenererNewCell(int _id)
 
 		n->AjouterEnfants(listType[indexP1], listType[indexP2]);
 
+		cout << "Genere nouvelle cellule : [" << *n << "]" << endl;
 		listType.push_back(n);					//Ajoute à la fin de la liste
 	}
 	else {
@@ -121,7 +122,6 @@ void Centre<TType>::AfficherListe()
 		
 		cout << endl;
 	}
-	
 }
 
 template<typename TType>

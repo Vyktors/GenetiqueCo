@@ -46,7 +46,7 @@ template<typename TType>
 inline ostream& operator<<(ostream& flux, Noeud<TType>& element)
 {
 	TType info = element.getInfo();
-	flux << info << endl;
+	flux << info;
 	return flux;
 }
 

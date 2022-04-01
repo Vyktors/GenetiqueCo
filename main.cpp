@@ -74,6 +74,11 @@ int main() {
 				}
 				else
 				{
+					centreColor.listType.clear();
+					centreColor.index = 0;
+					centreChromo.listType.clear();
+					centreChromo.index = 0;
+
 					while (!FicEntree.eof())
 					{
 						getline(FicEntree, instruction);
@@ -105,6 +110,7 @@ void gereChoix(string s)
 	case 'C': //Créer une population vide de type « TYPE »
 		if (s == "COLORCELL") {
 			centreCourant = &centreColor;
+			cout << "Ajout d'une population vide de type " << s << endl;
 		}
 		else {
 			cout << "Pas trouver de cellule de type '" << s << "' " << endl;
@@ -113,7 +119,6 @@ void gereChoix(string s)
 	case 'A'://Ajoute à la population courante un individu sans parent de type « TYPE » ayant les valeurs « VALEURS »
 		if (centreCourant == &centreColor) {
 			ajouterColorCell(s);
-			Noeud<ColorCell>* n = new Noeud<ColorCell>(ColorCell());
 		}
 		else {
 			cout << "Pas trouver de cellule de type '" << s << "' " << endl;
@@ -313,7 +318,7 @@ void ajouterColorCell(string line) {
 	}
 
 	Noeud<ColorCell>* tempCell = new Noeud<ColorCell>(ColorCell(++centreColor.index, r, g, b));
-
+	cout << setw(30) << "Ajout d'une cellule COLORCELL [" << *tempCell << "]" << endl;
 	centreColor.AjouterCell(tempCell);
 }
 
