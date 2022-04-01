@@ -39,7 +39,7 @@ int main() {
 
 	while (true) {
 		cout << "Voulez vous entrer des transactions " << endl;
-		cout << setw(10) << "A  " << "MANUEL" << endl;
+		cout << setfill(' ') << setw(10) << "A  " << "MANUEL" << endl;
 		cout << setw(10) << "B  " << "À PARTIR D'UN FICHIER" << endl;
 		string choix, instruction;
 		cout << "Choix (A ou B) : ";
@@ -325,7 +325,7 @@ void ajouterColorCell(string line) {
 
 void viderFichier(string nomFichier) {
 	std::ofstream ofs;
-	ofs.open("nomFichier", std::ofstream::out | std::ofstream::trunc);
+	ofs.open(nomFichier, std::ofstream::out | std::ofstream::trunc);
 	ofs.close();
 }
 
