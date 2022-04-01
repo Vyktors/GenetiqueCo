@@ -140,7 +140,7 @@ inline Noeud<TType>* Centre<TType>::FindCellByID(int _id)
 template<typename TType>
 inline int Centre<TType>::FindIndexCellByID(int _id)
 {
-	for (size_t i = 0; i < listType.size(); i++)
+	for (int i = 0; i < listType.size(); i++)
 	{
 		if (listType[i] != nullptr && listType[i]->getInfo().getId() == _id) {
 			return i;
